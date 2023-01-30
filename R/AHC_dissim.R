@@ -3,7 +3,7 @@
 #'
 #' @param D dissimilarity matrix
 #' @param X covariate matrix (if you do not have the dissimilarity matrix, it will be calculated)
-#' @param method Type of method used for the calculation of dissimilarities (e.g. "centroid", "median" etc...)
+#' @param method type of method used for the calculation of dissimilarities (e.g. "centroid", "median" etc...)
 #'
 #' @return
 #' @export

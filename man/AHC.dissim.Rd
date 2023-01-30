@@ -11,7 +11,7 @@ AHC.dissim(D = 0, X = 0, method = "average")
 
 \item{X}{covariate matrix (if you do not have the dissimilarity matrix, it will be calculated)}
 
-\item{method}{Type of method used for the calculation of dissimilarities (e.g. "centroid", "median" etc...)}
+\item{method}{type of method used for the calculation of dissimilarities (e.g. "centroid", "median" etc...)}
 }
 \description{
 Naive classification by dissimilarity
