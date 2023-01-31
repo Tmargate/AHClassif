@@ -3,7 +3,7 @@ Type: Package
 Title: Ascending Hierarchical Classification
 Version: 0.1.0
 Author: Tristan Margate , Malik Sari
-Maintainer: The package maintainer <yourself@somewhere.net>
+Maintainer: Tristan Margate <tristan.margate@gmail.com>
 Description: This package contains different functions allowing a hierarchical ascending classification 
     of data as well as a comparison in terms of algorithmic complexity between the different classical methods in the state of the art.
 License: GPL-3
