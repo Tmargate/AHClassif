@@ -12,4 +12,7 @@ LazyData: true
 RoxygenNote: 7.2.1
 Imports: 
     ggplot2,
-    ggfortify
+    ggfortify,
+    Rcpp
+LinkingTo: 
+    Rcpp
