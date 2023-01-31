@@ -2,7 +2,6 @@
 
 export(AHC.dissim)
 export(AHC.sim)
-export(Hello)
 export(Kernel)
 import(ggfortify)
 import(ggplot2)
