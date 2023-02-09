@@ -1,6 +1,12 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
+
+//' Dissim method using C++
+//'
+//' @param X matrix
+//' @return P clustering matrix
+//' @export
 // [[Rcpp::export]]
 NumericMatrix dissim(NumericMatrix X, String method = "average", bool dissim_matrix = false){
   if((method != "single") && (method != "complete") && (method != "average") && (method != "weighted") && (method != "centroid") && (method != "median") && (method != "ward")){

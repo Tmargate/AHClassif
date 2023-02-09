@@ -3,3 +3,4 @@
 export(AHC.dissim)
 export(AHC.sim)
 export(Kernel)
+export(dissim)
