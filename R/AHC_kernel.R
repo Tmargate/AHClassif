@@ -1,9 +1,8 @@
-
-#' Kernel functions
+#' Title
 #'
 #' @param x
 #' @param y
-#' @param FUN kernel function
+#' @param FUN
 #' @param .gamma
 #' @param c0
 #' @param d

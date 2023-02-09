@@ -3,5 +3,3 @@
 export(AHC.dissim)
 export(AHC.sim)
 export(Kernel)
-import(ggfortify)
-import(ggplot2)

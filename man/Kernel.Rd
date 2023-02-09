@@ -2,15 +2,13 @@
 % Please edit documentation in R/AHC_kernel.R
 \name{Kernel}
 \alias{Kernel}
-\title{Kernel functions}
+\title{Title}
 \usage{
 Kernel(x, y, FUN, .gamma = 1, c0 = 0, d = 2, normalize = TRUE)
 }
 \arguments{
-\item{FUN}{kernel function}
-
 \item{normalize}{}
 }
 \description{
-Kernel functions
+Title
 }
