@@ -2,34 +2,13 @@
 % Please edit documentation in R/AHC_dissim.R
 \name{AHC.dissim}
 \alias{AHC.dissim}
-\title{Naive classification by dissimilarity}
+\title{Title}
 \usage{
 AHC.dissim(D = 0, X = 0, method = "average")
 }
 \arguments{
-\item{D}{dissimilarity matrix}
-
-\item{X}{covariate matrix (if you do not have the dissimilarity matrix, it will be calculated)}
-
-\item{method}{type of method used for the calculation of dissimilarities (e.g. "centroid", "median" etc...)}
+\item{method}{}
 }
 \description{
-Naive classification by dissimilarity
-}
-\examples{
-methods = c("single","complete","average","weighted","centroid","median","Ward")
-X = as.matrix(iris[-5])
-iris.pca = prcomp(X,center=TRUE,scale.=TRUE)
-table.dissim = list()
-
-for (method in methods){
-  P = AHC.dissim(X=X,method=method)
-  P3 = P[150-length(levels(iris$Species))+1,]
-  table.dissim[[method]] = table(P3,iris$Species)
-  print(method)
-  print(table.dissim[[method]])
-  print(ggplot2::autoplot(iris.pca,data=iris,colour=P3)+ggplot2::ggtitle(method))
-}
-print(ggplot2::autoplot(iris.pca,data=iris,colour="Species")+ggplot2::ggtitle("true species"))
-
+Title
 }
