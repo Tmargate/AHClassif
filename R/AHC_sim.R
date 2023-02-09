@@ -1,52 +1,31 @@
-
-#' Naive classification by similarity
+#' Title
 #'
-#' @param S similarity matrix
-#' @param X covariate matrix (if you do not have the similarity matrix, it will be calculated)
-#' @param method type of method used for the calculation of similarities (e.g. "centroid", "median" etc...)
-#' @param Kernel.FUN kernel function used for similarity calculation (e.g. "polynomial","rbf","sigmoid" etc...)
+#' @param S
+#' @param X
+#' @param sparsity
+#' @param method
+#' @param Kernel.FUN
 #' @param ...
 #'
 #' @return
 #' @export
 #'
-#' @import ggfortify
-#' @import ggplot2
-#'
-#' @examples methods = c("single","complete","average","weighted","centroid","median","Ward")
-#' X = as.matrix(iris[-5])
-#' iris.pca = prcomp(X,center=TRUE,scale.=TRUE)
-#' table.sim = list()
-#'
-#' for (method in methods){
-#'   P = AHC.sim(X=X,method=method)
-#'   P3 = P[150-length(levels(iris$Species))+1,]
-#'   table.sim[[method]] = table(P3,iris$Species)
-#'   print(method)
-#'   print(table.sim[[method]])
-#'   print(ggplot2::autoplot(iris.pca,data=iris,colour=P3)+ggplot2::ggtitle(method))
-#' }
-#' print(ggplot2::autoplot(iris.pca,data=iris,colour="Species")+ggplot2::ggtitle("true species"))
-#'
-AHC.sim = function(S=0,X=0,method="average",Kernel.FUN="linear",...){
-  if (!method %in% c("single","complete","average","weighted","centroid","median","Ward")) stop("the method given is unknown")
-  if (!is.matrix(X) & !is.matrix(S)) stop("no values have been given to both S and X or the value(s) is (are) not a matrix")
-  else if (!is.matrix(S)){
+#' @examples
+AHC.sim = function(S=0,X=0,sparsity=0,method="average",Kernel.FUN="linear",...){
+  if (!is.matrix(S)){
     n0 = dim(X)[1]
     S = diag(1,n0)
     for (i in 1:(n0-1)){
       for (j in (i+1):n0){
-        S[i,j] = Kernel(X[i,],X[j,],FUN=Kernel.FUN,...)
+        S[i,j] = Kernel(X[i,],X[j,],Kernel.FUN,...)/2+0.5
         S[j,i] = S[i,j]
       }
     }
   }
-  else{
-    if (!isSymmetric(S)) stop("S must be square symmetric")
-  }
+  S[S<sparsity] = 0
+  n0 = nrow(S)
   rownames(S) = 1:n0
   colnames(S) = 1:n0
-  n0 = dim(S)[1]
   # On initialise les paramètres du clustering
   alpha.i = 0.5
   alpha.j = 0.5
@@ -67,12 +46,19 @@ AHC.sim = function(S=0,X=0,method="average",Kernel.FUN="linear",...){
   }
   P = matrix(0,n0,n0)
   P[1,] = 1:n0
+  t = rep(0,n0-1)
   n = n0
-  for (k in 2:n){
+  for (k in 2:n0){
     # On cherche les 2 classes les plus proches
-    arg.max = which.max(S-0.5*(matrix(rep(diag(S),n),n,n)+matrix(rep(diag(S),n),n,n,byrow=TRUE))-diag(Inf,n))
-    j = (arg.max-1)%/%n+1
-    i = arg.max-(j-1)*n
+    zeros = S == 0
+    S[zeros] = NA
+    diag.S = diag(S)
+    diag(S) = NA
+    arg.max = which(t(t(S)-0.5*diag.S)-0.5*diag.S == max(t(t(S)-0.5*diag.S)-0.5*diag.S,na.rm=T),arr.ind=T)
+    S[is.na(S)] = 0
+    diag(S) = diag.S
+    i = arg.max[1,1]
+    j = arg.max[1,2]
     # On crée la nouvelle partition
     P[k,] = P[k-1,]
     P[k,P[k,]==i] = j
@@ -103,14 +89,7 @@ AHC.sim = function(S=0,X=0,method="average",Kernel.FUN="linear",...){
         }
       }
     }
-    if (!isSymmetric(S)){
-      print(k)
-      print(arg.max)
-      print(i)
-      print(j)
-      print(S)
-      break
-    }
+    t[k-1] = S[i,i]+S[j,j]-2*S[i,j]
     # On met à jour S
     S.jj = S[j,j]
     S[j,] = alpha.i*S[i,]+alpha.j*S[j,]+beta*S[i,j]-gamma*abs(S[i,]-S[j,])
@@ -119,5 +98,5 @@ AHC.sim = function(S=0,X=0,method="average",Kernel.FUN="linear",...){
     S = S[-i,-i]
     n = n-1
   }
-  return(P)
+  return(list(P=P,coph=t))
 }

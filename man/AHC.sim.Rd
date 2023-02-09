@@ -2,38 +2,20 @@
 % Please edit documentation in R/AHC_sim.R
 \name{AHC.sim}
 \alias{AHC.sim}
-\title{Naive classification by similarity}
+\title{Title}
 \usage{
-AHC.sim(S = 0, X = 0, method = "average", Kernel.FUN = "linear", ...)
+AHC.sim(
+  S = 0,
+  X = 0,
+  sparsity = 0,
+  method = "average",
+  Kernel.FUN = "linear",
+  ...
+)
 }
 \arguments{
-\item{S}{similarity matrix}
-
-\item{X}{covariate matrix (if you do not have the similarity matrix, it will be calculated)}
-
-\item{method}{type of method used for the calculation of similarities (e.g. "centroid", "median" etc...)}
-
-\item{Kernel.FUN}{kernel function used for similarity calculation (e.g. "polynomial","rbf","sigmoid" etc...)}
-
 \item{...}{}
 }
 \description{
-Naive classification by similarity
-}
-\examples{
-methods = c("single","complete","average","weighted","centroid","median","Ward")
-X = as.matrix(iris[-5])
-iris.pca = prcomp(X,center=TRUE,scale.=TRUE)
-table.sim = list()
-
-for (method in methods){
-  P = AHC.sim(X=X,method=method)
-  P3 = P[150-length(levels(iris$Species))+1,]
-  table.sim[[method]] = table(P3,iris$Species)
-  print(method)
-  print(table.sim[[method]])
-  print(ggplot2::autoplot(iris.pca,data=iris,colour=P3)+ggplot2::ggtitle(method))
-}
-print(ggplot2::autoplot(iris.pca,data=iris,colour="Species")+ggplot2::ggtitle("true species"))
-
+Title
 }
