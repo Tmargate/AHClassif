@@ -10,6 +10,19 @@ Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
 Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
+// AHC_dissim_cpp
+NumericMatrix AHC_dissim_cpp(NumericMatrix X, String method, bool dissim_matrix);
+RcppExport SEXP _AHClassif_AHC_dissim_cpp(SEXP XSEXP, SEXP methodSEXP, SEXP dissim_matrixSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericMatrix >::type X(XSEXP);
+    Rcpp::traits::input_parameter< String >::type method(methodSEXP);
+    Rcpp::traits::input_parameter< bool >::type dissim_matrix(dissim_matrixSEXP);
+    rcpp_result_gen = Rcpp::wrap(AHC_dissim_cpp(X, method, dissim_matrix));
+    return rcpp_result_gen;
+END_RCPP
+}
 // dissim
 NumericMatrix dissim(NumericMatrix X, String method, bool dissim_matrix);
 RcppExport SEXP _AHClassif_dissim(SEXP XSEXP, SEXP methodSEXP, SEXP dissim_matrixSEXP) {
@@ -25,6 +38,7 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_AHClassif_AHC_dissim_cpp", (DL_FUNC) &_AHClassif_AHC_dissim_cpp, 3},
     {"_AHClassif_dissim", (DL_FUNC) &_AHClassif_dissim, 3},
     {NULL, NULL, 0}
 };
