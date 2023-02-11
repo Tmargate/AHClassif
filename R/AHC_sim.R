@@ -1,17 +1,25 @@
-#' Title
+
+#' Classification by similarities
 #'
-#' @param S
-#' @param X
-#' @param sparsity
-#' @param method
-#' @param Kernel.FUN
-#' @param ...
+#' Performs a ascending hierarchical classification by the classical algorithm from the similarity matrix
 #'
-#' @return
+#' @param S Similarity matrix if already computed
+#' @param X Data matrix (only if the similarity matrix S is not given)
+#' @param sparsity threshold below which similarities are zero
+#' @param method method for calculating dissimilarities between clusters (e.g. "single", "complete" ..), default = "average"
+#' @param Kernel.FUN kernel function to be used if we want to calculate S from X (default :"linear")
+#' @param ... other parameters that will be passed to the Kernel procedure (see Kernel procedure for details)
+#'
+#' @return P : list containing parition matrix and vector of kophenetic distances
+#'
 #' @export
 #'
 #' @examples
-AHC.sim = function(S=0,X=0,sparsity=0,method="average",Kernel.FUN="linear",...){
+#' X = as.matrix(iris[-5])
+#' method = "single"
+#' P = AHC_sim(X=X, method = "median", Kernel.FUN = "sigmoid")
+#'
+AHC_sim = function(S=0,X=0,sparsity=0,method="average",Kernel.FUN="linear",...){
   if (!is.matrix(S)){
     n0 = dim(X)[1]
     S = diag(1,n0)

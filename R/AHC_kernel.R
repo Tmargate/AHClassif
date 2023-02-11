@@ -1,14 +1,16 @@
-#' Title
+#' Kernel functions for similarities
 #'
-#' @param x
-#' @param y
-#' @param FUN
-#' @param .gamma
-#' @param c0
-#' @param d
-#' @param normalize
+#' Computes the value of a kernel between two points
 #'
-#' @return
+#' @param x coordinate vector of the first point
+#' @param y coordinate vector of the second point
+#' @param FUN kernel function (e.g. "chi2", "laplacian" etc..)
+#' @param .gamma hyperparameters of the kernel function (default = 1)
+#' @param c0 hyperparameters of the kernel function (default = 0)
+#' @param d hyperparameters of the kernel function (default = 2)
+#' @param normalize Boolean indicating whether the output value should be normalized (default = True)
+#'
+#' @return kernel value in (x,y)
 #' @export
 #'
 #' @examples

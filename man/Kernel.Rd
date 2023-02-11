@@ -2,13 +2,28 @@
 % Please edit documentation in R/AHC_kernel.R
 \name{Kernel}
 \alias{Kernel}
-\title{Title}
+\title{Kernel functions for similarities}
 \usage{
 Kernel(x, y, FUN, .gamma = 1, c0 = 0, d = 2, normalize = TRUE)
 }
 \arguments{
-\item{normalize}{}
+\item{x}{coordinate vector of the first point}
+
+\item{y}{coordinate vector of the second point}
+
+\item{FUN}{kernel function (e.g. "chi2", "laplacian" etc..)}
+
+\item{.gamma}{hyperparameters of the kernel function (default = 1)}
+
+\item{c0}{hyperparameters of the kernel function (default = 0)}
+
+\item{d}{hyperparameters of the kernel function (default = 2)}
+
+\item{normalize}{Boolean indicating whether the output value should be normalized (default = True)}
+}
+\value{
+kernel value in (x,y)
 }
 \description{
-Title
+Computes the value of a kernel between two points
 }
