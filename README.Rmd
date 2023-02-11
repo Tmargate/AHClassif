@@ -18,9 +18,10 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 <!-- badges: end -->
 
-This package aims to create several ascending classification methods in order to compare their performances on different datasets and to study the causes of these differences.
+This package aims to create two ascending classification methods in order to compare their performances on different datasets and to study the causes of these differences.
 
-A first so-called "naive" method will be introduced and described in detail in order to achieve such a classification. In accordance with the state of the art, we will introduce a second method (or even a third one) in order to surpass the performances of the previously stated method both in terms of time complexity and memory capacity, thus making more accessible an ascending classification on large datasets.
+A first so-called "classical" method will be introduced and described in detail in order to achieve such a classification. In accordance with the state of the art, we will introduce a second method in order to surpass the performances of the previously stated method both in terms of time complexity and memory capacity, thus making more accessible an ascending classification on large datasets.
+Full details of these algorithms can be found in the article in the repository (only available in French)
 
 The first tests will be performed on the well-known Iris dataset to convince us of the efficiency of these algorithms.
 
@@ -29,32 +30,49 @@ The first tests will be performed on the well-known Iris dataset to convince us 
 You can install the development version of AHClassif from [GitHub](https://github.com/) with:
 
 ``` r
-# install.packages("devtools")
+install.packages("devtools")
 devtools::install_github("Tmargate/AHClassif")
 ```
 
+
+
 ## Example
 
-Here is a simple example on the Iris dataset using the "naive" method : 
+Here is a simple example on the Iris dataset using the classical algorithm : 
 
 ```{r example}
-library(AHClassif)
+library(ggplot2)
+library(ggfortify)
+method = "average"
+X <- as.matrix(iris[-5])
+iris.pca <- prcomp(X,center=TRUE,scale.=TRUE)
 
-methods = c("single","complete","average","weighted","centroid","median","Ward")
-X = as.matrix(iris[-5])
-iris.pca = prcomp(X,center=TRUE,scale.=TRUE)
-table.dissim = list()
+res <- AHClassif::AHC_dissim(X=X,method=method)
 
-for (method in methods){
-  P = AHC.dissim(X=X,method=method)
-  P3 = P[150-length(levels(iris$Species))+1,]
-  table.dissim[[method]] = table(P3,iris$Species)
-  print(method)
-  print(table.dissim[[method]])
-  print(ggplot2::autoplot(iris.pca,data=iris,colour=P3)+ggplot2::ggtitle(method))
-}
+P3 = res$P[150-length(levels(iris$Species))+1,]
+
+print(table(P3,iris$Species))
+print(ggplot2::autoplot(iris.pca,data=iris,colour=P3)+ggplot2::ggtitle(method))
 print(ggplot2::autoplot(iris.pca,data=iris,colour="Species")+ggplot2::ggtitle("true species"))
 
 ```
-As the package is under development, no conclusions can be drawn at this stage of the evolution. A detailed report is attached in the directory to detail all the methods used.
+Then with the nearest neighbors chain algorithm
+
+```{r}
+method = "average"
+X <- as.matrix(iris[-5])
+iris.pca <- prcomp(X,center=TRUE,scale.=TRUE)
+
+res <- AHClassif::NNC_sim(X=X,method=method)
+
+P3 = res$P[150-length(levels(iris$Species))+1,]
+
+print(table(P3,iris$Species))
+print(ggplot2::autoplot(iris.pca,data=iris,colour=P3)+ggplot2::ggtitle(method))
+print(ggplot2::autoplot(iris.pca,data=iris,colour="Species")+ggplot2::ggtitle("true species"))
+```
+
+## In the future
+
+A C++ version of these algorithms would make them even more optimal in terms of time complexity, which is what we are currently working on to make this package even more useful on large datasets
 
