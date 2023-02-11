@@ -27,7 +27,7 @@ AHC_sim(
 \item{...}{other parameters that will be passed to the Kernel procedure (see Kernel procedure for details)}
 }
 \value{
-P : list containing parition matrix and vector of kophenetic distances
+list containing partition matrix and vector of cophenetic distances
 }
 \description{
 Performs a ascending hierarchical classification by the classical algorithm from the similarity matrix

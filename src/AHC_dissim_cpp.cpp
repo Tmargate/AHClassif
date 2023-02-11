@@ -5,7 +5,7 @@ using namespace Rcpp;
 //' Dissimilarity method using C++
 //'
 //' @param X Data matrix by default (if dissim_matrix = True, then this is the dissimilarity matrix)
-//' @param String method type of linkage for the Lance-Williams distance ("average" by default)
+//' @param method type of linkage for the Lance-Williams distance ("average" by default)
 //' @param dissim_matrix false by default, put true if you give the dissimilarity matrix directly
 //' @return P clustering matrix (each row corresponds to each iteration)
 //'

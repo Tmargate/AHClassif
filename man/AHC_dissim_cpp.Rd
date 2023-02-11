@@ -9,9 +9,9 @@ AHC_dissim_cpp(X, method = "average", dissim_matrix = FALSE)
 \arguments{
 \item{X}{Data matrix by default (if dissim_matrix = True, then this is the dissimilarity matrix)}
 
-\item{dissim_matrix}{false by default, put true if you give the dissimilarity matrix directly}
+\item{method}{type of linkage for the Lance-Williams distance ("average" by default)}
 
-\item{String}{method type of linkage for the Lance-Williams distance ("average" by default)}
+\item{dissim_matrix}{false by default, put true if you give the dissimilarity matrix directly}
 }
 \value{
 P clustering matrix (each row corresponds to each iteration)

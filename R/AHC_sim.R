@@ -10,7 +10,7 @@
 #' @param Kernel.FUN kernel function to be used if we want to calculate S from X (default :"linear")
 #' @param ... other parameters that will be passed to the Kernel procedure (see Kernel procedure for details)
 #'
-#' @return P : list containing parition matrix and vector of kophenetic distances
+#' @return list containing partition matrix and vector of cophenetic distances
 #'
 #' @export
 #'
@@ -34,7 +34,7 @@ AHC_sim = function(S=0,X=0,sparsity=0,method="average",Kernel.FUN="linear",...){
   n0 = nrow(S)
   rownames(S) = 1:n0
   colnames(S) = 1:n0
-  # On initialise les paramètres du clustering
+  # the clustering parameters are initialized
   alpha.i = 0.5
   alpha.j = 0.5
   beta = 0
@@ -57,7 +57,7 @@ AHC_sim = function(S=0,X=0,sparsity=0,method="average",Kernel.FUN="linear",...){
   t = rep(0,n0-1)
   n = n0
   for (k in 2:n0){
-    # On cherche les 2 classes les plus proches
+    # We look for the two closest classes
     zeros = S == 0
     S[zeros] = NA
     diag.S = diag(S)
@@ -67,11 +67,11 @@ AHC_sim = function(S=0,X=0,sparsity=0,method="average",Kernel.FUN="linear",...){
     diag(S) = diag.S
     i = arg.max[1,1]
     j = arg.max[1,2]
-    # On crée la nouvelle partition
+    # Create the new partition
     P[k,] = P[k-1,]
     P[k,P[k,]==i] = j
     P[k,P[k,]>i] = P[k,P[k,]>i]-1
-    # On met à jour alpha, beta et delta
+    # Update alpha, beta and delta
     if (method %in% c("average","centroid","Ward")){
       card.i = sum(P[k-1,]==i)
       card.j = sum(P[k-1,]==j)
@@ -98,7 +98,7 @@ AHC_sim = function(S=0,X=0,sparsity=0,method="average",Kernel.FUN="linear",...){
       }
     }
     t[k-1] = S[i,i]+S[j,j]-2*S[i,j]
-    # On met à jour S
+    # Update S
     S.jj = S[j,j]
     S[j,] = alpha.i*S[i,]+alpha.j*S[j,]+beta*S[i,j]-gamma*abs(S[i,]-S[j,])
     S[j,j] = delta.i*S[i,i]+delta.j*S.jj

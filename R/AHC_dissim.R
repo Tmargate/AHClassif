@@ -1,16 +1,23 @@
 
-#' Title
+#' Classification by dissimilarities matrix
 #'
-#' @param D
-#' @param X
-#' @param method
+#' Performs a ascending hierarchical classification by classical algorithm from the dissimilarities matrix
 #'
-#' @return
+#' @param D dissimilarities matrix if already computed
+#' @param X Data matrix (only if the similarity matrix S is not given)
+#' @param method method for calculating dissimilarities between clusters (e.g. "single", "complete" ..), default = "average"
+#'
+#' @return list containing partition matrix and vector of cophenetic distances
 #' @export
 #'
-#' @examples
+#' @importFrom stats dist
 #'
-AHC.dissim = function(D=0,X=0,method="average"){
+#' @examples
+#' X = as.matrix(iris[-5])
+#' method = "single"
+#' P = AHC_dissim(X=X, method = "median")
+#'
+AHC_dissim = function(D=0,X=0,method="average"){
   if (!is.matrix(D)){
     D = as.matrix(dist(X))
   }
@@ -19,7 +26,7 @@ AHC.dissim = function(D=0,X=0,method="average"){
   rownames(D) = 1:n0
   colnames(D) = 1:n0
   n0 = dim(D)[1]
-  # On initialise les paramètres du clustering
+  # the clustering parameters are initialized
   alpha.i = 0.5
   alpha.j = 0.5
   beta = 0
@@ -38,15 +45,15 @@ AHC.dissim = function(D=0,X=0,method="average"){
   t = rep(0,n0-1)
   n = n0
   for (k in 2:n0){
-    # On cherche les 2 classes les plus proches
+    # We look for the two closest classes
     arg.min = which.min(D)
     j = (arg.min-1)%/%n+1
     i = arg.min-(j-1)*n
-    # On crée la nouvelle partition
+    # Create the new partition
     P[k,] = P[k-1,]
     P[k,P[k,]==i] = j
     P[k,P[k,]>i] = P[k,P[k,]>i]-1
-    # On met à jour alpha et beta
+    # Update alpha and beta
     if (method %in% c("average","centroid","Ward")){
       card.i = sum(P[k-1,]==i)
       card.j = sum(P[k-1,]==j)
@@ -71,7 +78,7 @@ AHC.dissim = function(D=0,X=0,method="average"){
       }
     }
     t[k-1] = D[i,j]
-    # On met à jour D
+    # Update D
     D[j,] = alpha.i*D[i,]+alpha.j*D[j,]+beta*D[i,j]+gamma*abs(D[i,]-D[j,])
     D[j,j] = Inf
     D[,j] = D[j,]
